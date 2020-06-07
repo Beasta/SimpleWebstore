@@ -17,12 +17,10 @@ let buttonsDOM = [];
 class Products {
   async getProducts() {
     try {
-      let result = await fetch("products.json");
-      let result2 = await fetch("illumina-products-list.json");
+      let result = await fetch("illumina-products-list.json");
       let data = await result.json();
-      let data2 = await result2.json();
-      let products2 = data2.productList[0].productFacetInfoList;
-      products2 = products2.map((item, index) => {
+      let products = data.productList[0].productFacetInfoList;
+      products = products.map((item, index) => {
         let {price, title} = item;
         price = parseFloat(parseFloat(price).toFixed(2));
         const id = index.toFixed(0);
@@ -31,14 +29,8 @@ class Products {
         const page = item.productPagepath;
         return {title, price, id, image, description, page};
       })
-      let products = data.items;
-      products = products.map(item => {
-        const {title, price} = item.fields;
-        const {id} = item.sys;
-        const image = item.fields.image.fields.file.url;
-        return {title, price, id, image}
-      })
-      return products2;
+
+      return products;
     } catch (e) {
       console.error('e', e);
     }
@@ -51,7 +43,6 @@ class UI {
     let result = "";
     products.forEach(product => {
       result += `
-   <!-- single product -->
         <article class="product">
           <div class="img-container">
             <img
@@ -67,7 +58,6 @@ class UI {
           <h3>${product.title}</h3>
           <h4>$${product.price}</h4>
         </article>
-        <!-- end of single product -->
    `;
     });
     productsDOM.innerHTML = result;
