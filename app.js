@@ -56,6 +56,7 @@ class UI {
             </button>
           </div>
           <h3>${product.title}</h3>
+          <h3>${product.description}</h3>
           <h4>$${product.price}</h4>
         </article>
    `;

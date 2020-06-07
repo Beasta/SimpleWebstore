@@ -7,6 +7,7 @@
     --mainGrey: #ececec;
     --mainSpacing: 0.1rem;
     --mainTransition: all 0.3s linear;
+    --secondaryColor: #81af45;
 }
 * {
     margin: 0;
@@ -115,7 +116,7 @@ body {
     margin: 0 auto;
     max-width: 1170px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
     grid-column-gap: 1.5rem;
     grid-row-gap: 2rem;
 }
