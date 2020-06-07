@@ -44,6 +44,12 @@ class UI {
     products.forEach(product => {
       result += `
         <article class="product">
+          <h2>
+            <a href="${product.page}">
+              ${product.title}
+            </a>
+          </h2>
+        
           <div class="img-container">
             <img
               src=${product.image}
@@ -55,7 +61,7 @@ class UI {
               add to cart
             </button>
           </div>
-          <h3>${product.title}</h3>
+          
           <h3>${product.description}</h3>
           <h4>$${product.price}</h4>
         </article>

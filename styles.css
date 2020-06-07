@@ -146,6 +146,10 @@ body {
 .img-container:hover .bag-btn {
     transform: translateX(0);
 }
+
+.product {
+    margin: 10px;
+}
 .product-img {
     display: block;
     width: 100%;
@@ -155,7 +159,15 @@ body {
 .img-container:hover .product-img {
     opacity: 0.5;
 }
+.product h2 {
+    text-transform: capitalize;
+    font-size: 1.4rem;
+    margin-top: 1rem;
+    letter-spacing: var(--mainSpacing);
+    text-align: center;
+    height: 4rem;
 
+}
 .product h3 {
     text-transform: capitalize;
     font-size: 1.1rem;
@@ -167,7 +179,9 @@ body {
 .product h4 {
     margin-top: 0.7rem;
     letter-spacing: var(--mainSpacing);
-    color: var(--primaryColor);
+    font-size: 1.5rem;
+    /*color: var(--primaryColor);*/
+    color: var(--secondaryColor);
     text-align: center;
 }
 
