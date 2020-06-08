@@ -123,6 +123,19 @@ body {
     overflow: hidden;
 }
 .bag-btn {
+    background: var(--primaryColor);
+    border: none;
+    text-transform: uppercase;
+    padding: 0.5rem 0.75rem;
+    letter-spacing: var(--mainSpacing);
+    font-weight: bold;
+    transition: var(--mainTransition);
+    cursor: pointer;
+}
+.bag-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     position: absolute;
     top: 70%;
     right: 0;
@@ -136,6 +149,19 @@ body {
     transform: translateX(101%);
     cursor: pointer;
 }
+.counter-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    align-content: center;
+}
+.bag-container > .counter-container > .fas {
+    color: black
+}
+.bag-container > .counter-container > * {
+    align-self: center;
+}
 .bag-btn:hover {
     color: var(--mainWhite);
 }
@@ -146,6 +172,9 @@ body {
     transform: translateX(0);
 }
 
+.img-container:hover .bag-container{
+    transform: translateX(0);
+}
 .product {
     margin: 10px;
     border: solid;

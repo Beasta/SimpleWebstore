@@ -10,6 +10,7 @@ const cartContent = document.querySelector(".cart-content");
 const productsDOM = document.querySelector(".products-center");
 let cart = [];
 let buttonsDOM = [];
+let bagIncrementerDOM = [];
 
 // grab products
 class Products {
@@ -47,25 +48,53 @@ class UI {
               ${product.title}
             </a>
           </h2>
-        
           <div class="img-container">
             <img
               src=${product.image}
               alt="product"
               class="product-img"
             />
-            <button class="bag-btn" data-id=${product.id}>
-              <i class="fas fa-shopping-cart"></i>
-              add to cart
-            </button>
+            <div class="bag-container">
+              <button class="bag-btn" data-id=${product.id}>
+                <i class="fas fa-shopping-cart"></i>
+                add to cart
+              </button>
+              <div class="counter-container" data-id=${product.id}>
+                <i class="fas fa-chevron-up"></i>
+                <p class="item-amount">
+                  1
+                </p>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
           </div>
-          
           <h3>${product.description}</h3>
           <h4>$${product.price}</h4>
         </article>
    `;
     });
     productsDOM.innerHTML = result;
+  }
+  getIncrementerButtons(){
+    let incrementers = [...document.querySelectorAll(".counter-container")]
+    bagIncrementerDOM = incrementers;
+    incrementers.forEach(incrementer => {
+      let id = incrementer.dataset.id;
+      let inCart = cart.find(item => item.id === id);
+
+      if (inCart) {
+        incrementer.style.display = "none";
+      }
+      incrementer.addEventListener("click", event => {
+        let currentAmount = parseFloat(incrementer.children[1].textContent);
+        if(event.target.classList.contains("fa-chevron-up")){
+          currentAmount++
+        }else if(event.target.classList.contains("fa-chevron-down")){
+          currentAmount--;
+        }
+        incrementer.children[1].textContent = currentAmount;
+      })
+    })
   }
   getBagButtons() {
     let buttons = [...document.querySelectorAll(".bag-btn")];
@@ -83,7 +112,10 @@ class UI {
         event.target.innerText = "In Cart";
         event.target.disabled = true;
         // add to cart
-        let cartItem = { ...Storage.getProduct(id), amount: 1 };
+        let incrementer = this.getSingleIncrementer(id);
+        let bagAmount = parseFloat(incrementer.children[1].textContent);
+        incrementer.style.display = "none";
+        let cartItem = { ...Storage.getProduct(id), amount: bagAmount };
         cart = [...cart, cartItem];
         Storage.saveCart(cart);
         // add to DOM
@@ -151,12 +183,14 @@ class UI {
       this.clearCart();
     });
     cartContent.addEventListener("click", event => {
+      // remove item from cart
       if (event.target.classList.contains("remove-item")) {
         let removeItem = event.target;
         let id = removeItem.dataset.id;
         cartContent.removeChild(removeItem.parentElement.parentElement);
         // remove item
         this.removeItem(id);
+      // increase item amount
       } else if (event.target.classList.contains("fa-chevron-up")) {
         let addAmount = event.target;
         let id = addAmount.dataset.id;
@@ -165,6 +199,7 @@ class UI {
         Storage.saveCart(cart);
         this.setCartValues(cart);
         addAmount.nextElementSibling.innerText = tempItem.amount;
+      // decrease item amount
       } else if (event.target.classList.contains("fa-chevron-down")) {
         let lowerAmount = event.target;
         let id = lowerAmount.dataset.id;
@@ -196,10 +231,13 @@ class UI {
     Storage.saveCart(cart);
     let button = this.getSingleButton(id);
     button.disabled = false;
-    button.innerHTML = `<i class="fas fa-shopping-cart"></i>add to bag`;
+    button.innerHTML = `<i class="fas fa-shopping-cart"></i>Add to Cart`;
   }
   getSingleButton(id) {
     return buttonsDOM.find(button => button.dataset.id === id);
+  }
+  getSingleIncrementer(id) {
+    return bagIncrementerDOM.find(incrementer => incrementer.dataset.id === id);
   }
 }
 
@@ -236,5 +274,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(() => {
       ui.getBagButtons();
       ui.cartLogic();
+      ui.getIncrementerButtons();
     });
 });
