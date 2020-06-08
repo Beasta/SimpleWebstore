@@ -149,6 +149,8 @@ body {
 
 .product {
     margin: 10px;
+    border: solid;
+    border-color: var(--primaryColor);
 }
 .product-img {
     display: block;
