@@ -65,7 +65,6 @@ body {
 /* --------------- Hero ---------------- */
 .hero {
     min-height: calc(20vh - 60px);
-    /*background: url("./images/background.jpg") center/cover no-repeat;*/
     background: var(--primaryColor);
     display: flex;
     align-items: center;

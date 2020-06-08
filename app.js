@@ -1,4 +1,3 @@
-
 // variables
 const cartBtn = document.querySelector(".cart-btn");
 const closeCartBtn = document.querySelector(".close-cart");
@@ -11,7 +10,6 @@ const cartContent = document.querySelector(".cart-content");
 const productsDOM = document.querySelector(".products-center");
 let cart = [];
 let buttonsDOM = [];
-//syntactical sugar of writing constructor function
 
 // grab products
 class Products {
