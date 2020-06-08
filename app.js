@@ -12,15 +12,20 @@ let cart = [];
 let buttonsDOM = [];
 let bagIncrementerDOM = [];
 
-// grab products
+// grab products from the provided json file and format them to more digestible object
 class Products {
   async getProducts() {
     try {
-      let result = await fetch("illumina-products-list.json");
-      let data = await result.json();
+      // uncomment the below if running from a live server
+      // let result = await fetch("illumina-products-list.json");
+      // let data = await result.json();
+
+      // productListJson is just the original JSON file shimmed into a javascript file for the purpose of loading easily from the file system for the assignment
+      let data = productListJson;
       let products = data.productList[0].productFacetInfoList;
       products = products.map((item, index) => {
         let {price, title} = item;
+        // price comes in from JSON as a string
         price = parseFloat(parseFloat(price).toFixed(2));
         const id = index.toFixed(0);
         const image = item.imagePath;
@@ -28,7 +33,6 @@ class Products {
         const page = item.productPagepath;
         return {title, price, id, image, description, page};
       })
-
       return products;
     } catch (e) {
       console.error('e', e);
@@ -36,11 +40,14 @@ class Products {
   }
 }
 
-// ui
+// User Interface Logic
 class UI {
+
   displayProducts(products) {
     let result = "";
+    // iterate through the products and add them to theDOM
     products.forEach(product => {
+      // product template
       result += `
         <article class="product">
           <h2>
@@ -75,6 +82,7 @@ class UI {
     });
     productsDOM.innerHTML = result;
   }
+  // logic for the incrementer shown before item is added to the cart
   getIncrementerButtons(){
     let incrementers = [...document.querySelectorAll(".counter-container")]
     bagIncrementerDOM = incrementers;
@@ -96,6 +104,7 @@ class UI {
       })
     })
   }
+  // logic for getting the bag buttons
   getBagButtons() {
     let buttons = [...document.querySelectorAll(".bag-btn")];
     buttonsDOM = buttons;
@@ -241,6 +250,7 @@ class UI {
   }
 }
 
+// use local storage to persist the cart and products
 class Storage {
   static saveProducts(products) {
     localStorage.setItem("products", JSON.stringify(products));
@@ -259,6 +269,7 @@ class Storage {
   }
 }
 
+//wait until DOM is loaded and start adding products from the list
 document.addEventListener("DOMContentLoaded", () => {
   const ui = new UI();
   const products = new Products();
@@ -266,12 +277,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // get all products
   products
-    .getProducts()
-    .then(products => {
+    .getProducts()// first grab all the products from provided JSON
+    .then(products => { // display products and add to local storage
       ui.displayProducts(products);
       Storage.saveProducts(products);
     })
-    .then(() => {
+    .then(() => { // after products have been added
       ui.getBagButtons();
       ui.cartLogic();
       ui.getIncrementerButtons();
