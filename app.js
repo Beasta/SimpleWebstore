@@ -25,7 +25,7 @@ class Products {
       let products = data.productList[0].productFacetInfoList;
       products = products.map((item, index) => {
         let {price, title} = item;
-        // price comes in from JSON as a string
+        // price comes in from JSON as a string, change to float
         price = parseFloat(parseFloat(price).toFixed(2));
         const id = index.toFixed(0);
         const image = item.imagePath;
@@ -92,6 +92,8 @@ class UI {
 
       if (inCart) {
         incrementer.style.display = "none";
+      } else {
+        incrementer.style.display = "flex";
       }
       incrementer.addEventListener("click", event => {
         let currentAmount = parseFloat(incrementer.children[1].textContent);
@@ -226,7 +228,6 @@ class UI {
     });
   }
   clearCart() {
-    // console.log(this);
     let cartItems = cart.map(item => item.id);
     cartItems.forEach(id => this.removeItem(id));
     while (cartContent.children.length > 0) {
@@ -239,7 +240,9 @@ class UI {
     this.setCartValues(cart);
     Storage.saveCart(cart);
     let button = this.getSingleButton(id);
+    let incrementer = this .getSingleIncrementer(id);
     button.disabled = false;
+    incrementer.style.display = "flex";
     button.innerHTML = `<i class="fas fa-shopping-cart"></i>Add to Cart`;
   }
   getSingleButton(id) {
@@ -273,7 +276,7 @@ class Storage {
 document.addEventListener("DOMContentLoaded", () => {
   const ui = new UI();
   const products = new Products();
-  ui.setupAPP();
+  ui.setupAPP(); // setup and populate cart from local storage
 
   // get all products
   products
