@@ -201,7 +201,7 @@ class UI {
         cartContent.removeChild(removeItem.parentElement.parentElement);
         // remove item
         this.removeItem(id);
-      // increase item amount
+      // increase item amount in cart
       } else if (event.target.classList.contains("fa-chevron-up")) {
         let addAmount = event.target;
         let id = addAmount.dataset.id;
@@ -210,7 +210,7 @@ class UI {
         Storage.saveCart(cart);
         this.setCartValues(cart);
         addAmount.nextElementSibling.innerText = tempItem.amount;
-      // decrease item amount
+      // decrease item amount in cart
       } else if (event.target.classList.contains("fa-chevron-down")) {
         let lowerAmount = event.target;
         let id = lowerAmount.dataset.id;
@@ -285,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ui.displayProducts(products);
       Storage.saveProducts(products);
     })
-    .then(() => { // after products have been added
+    .then(() => { // after products have been populated
       ui.getBagButtons();
       ui.cartLogic();
       ui.getIncrementerButtons();
