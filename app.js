@@ -17,7 +17,7 @@ class Products {
   async getProducts() {
     try {
       // uncomment the below if running from a live server
-      // let result = await fetch("illumina-products-list.json");
+      // let result = await fetch("products-list.json");
       // let data = await result.json();
 
       // productListJson is just the original JSON file shimmed into a javascript file for the purpose of loading easily from the file system for the assignment
